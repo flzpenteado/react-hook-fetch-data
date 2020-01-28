@@ -1,5 +1,5 @@
-import React, {Fragment, useState, useEffect} from './node_modules/react';
-import axios from './node_modules/axios';
+import React, {Fragment, useState, useEffect} from 'react';
+import axios from 'axios';
 
 const Main = () => {
 
@@ -12,14 +12,22 @@ const Main = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true);
+            
             const result = await axios({url});
             setData(result.data);
+
+            setIsLoading(false);
+            
         };
         fetchData()
     },[url]);
 
     return(
         <Fragment>
+
+            <div hidden={!isLoading} >Loading...</div>
+
             <input type="text" value={query} onChange={e => setQuery(e.target.value)}/>
             <button type="button" onClick={() => setUrl(`${BASE_URL}?query=${query}`)}>Search</button>
             <hr/>
@@ -30,6 +38,8 @@ const Main = () => {
                     </li>
                 )}
             </ul>
+
+
         </Fragment>
     )
 }
